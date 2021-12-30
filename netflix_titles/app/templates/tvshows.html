@@ -1,0 +1,46 @@
+{% extends base %}
+
+
+{% block content %}
+    <h2 style="font-family: Courier; margin-left: 500px;margin-top: 100px;"> Some of our TV shows</h2>
+    <div class="row">
+            <form id="edit" method="post" action=".">
+                {%  csrf_token %}
+                <table class="styled-table">
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Directed by</th>
+                            <th>Release Year</th>
+                            <th>Category</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for tvshow in tvShows %}
+                            <tr vocab="http://schema.org/" typeof="TV_Show" class="h-tvshow">
+                                <td  onclick="window.location={% url 'edit' %} + '{{ tvshow.title }}' " property="title" class="p-tvshow-title">
+                                    {{ tvshow.title }}
+                                </td>
+                                <td  onclick="window.location={% url 'edit' %} + '{{ tvshow.title }}' " property="director" class="p-tvshow-director">
+                                    {{ tvshow.director }}
+                                </td>
+                                <td  onclick="window.location={% url 'edit' %} + '{{ tvshow.title }}' " property="release_year" class="p-tvshow-release-year">
+                                    {{ tvshow.release_year }}
+                                </td>
+                                <td  onclick="window.location={% url 'edit' %} + '{{ tvshow.title }}' " property="category" class="p-tvshow-category">
+                                    {{ tvshow.listed_in }}
+                                </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+                <input type="hidden" name="name" value="your value"/>
+
+            </form>
+
+
+        </div>
+{% endblock %}
+
+

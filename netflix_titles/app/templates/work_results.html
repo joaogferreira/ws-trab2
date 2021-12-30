@@ -1,0 +1,38 @@
+{% extends base %}
+
+
+{% block content %}
+    <h2 style="font-family: Courier; margin-left: 500px;margin-top: 100px;"> Inference between actors</h2>
+
+    <form action="." method="post" style="margin-left: 500px">
+        {%  csrf_token %}
+        <p>Search: <input type="text" name="keyword"/></p>
+    </form>
+
+    <p style="font-family: Courier; margin-left: 500px"> Search for: {{  keyword }}</p>
+
+    <p style="font-family: Courier; margin-left: 500px"> Found {{  nResults}} results.</p>
+
+    <table class="styled-table" style="margin-left: 350px">
+        <thead>
+            <tr>
+                <th>Person</th>
+                <th>Worked with</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for key, value in results.items %}
+
+                 <tr>
+                    <td> {{ key }}</td>
+                    <td>
+                        {{ value }}
+                    </td>
+                </tr>
+            {% endfor %}
+
+        </tbody>
+    </table>
+{% endblock %}
+
+

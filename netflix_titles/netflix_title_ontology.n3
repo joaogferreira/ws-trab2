@@ -1,0 +1,208 @@
+@prefix netflix_titles: <http://netflix-titles.com/> .
+@prefix person: <http://netflix-titles.com/person/> .
+@prefix pred: <http://netflix-titles.com/pred/> .
+@prefix type: <http://netflix-titles.com/type/> .
+@prefix country: <http://wikipedia/country/>.
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix xsd:<http://www.w3.org/2001/XMLSchema#> .
+
+
+#Classes
+
+netflix_titles:Person rdf:type rdfs:Class;
+    rdfs:label "Person".
+
+netflix_titles:Type rdf:type rdfs:Class ;
+    rdfs:label "Type".
+
+netflix_titles:Country rdf:type rdfs:Class ;
+    rdfs:label "Country".
+
+netflix_titles:Listed_in rdf:type rdfs:Class ;
+    rdfs:label "Listed_in".
+
+#SubClasses
+
+netflix_titles:Actor rdf:type rdfs:Class ; 
+    rdfs:label "Actor" ;
+    rdfs:subClassOf netflix_titles:Person .
+
+netflix_titles:Director rdf:type rdfs:Class ;
+    rdfs:label "Director" ;
+    rdfs:subClassOf netflix_titles:Person .
+
+netflix_titles:Celebrity rdf:type rdfs:Class ; 
+    rdfs:label "Celebrity" ;
+    rdfs:subClassOf netflix_titles:Person .
+
+netflix_titles:Movie rdf:type rdfs:Class ; 
+    rdfs:label "Movie" ;
+    rdfs:subClassOf netflix_titles:Type .
+
+netflix_titles:TVShow rdf:type rdfs:Class ; 
+    rdfs:label "TV Show" ;
+    rdfs:subClassOf netflix_titles:Type .
+
+
+#Movies properties
+
+pred:starring rdf:type rdf:Property ; 
+    rdfs:domain netflix_titles:Movie;
+    rdfs:range netflix_titles:Actor ;
+    rdfs:comment "Actors that participated in the movie".
+
+pred:directed_by rdf:type rdf:Property ; 
+    rdfs:domain netflix_titles:Movie;
+    rdfs:range netflix_titles:Director;
+    rdfs:comment "Directors that directed the movie".
+
+pred:recorded rdf:type rdf:Property ; 
+    rdfs:domain netflix_titles:Movie;
+    rdfs:range netflix_titles:Country;
+    rdfs:comment "Country where the movie was recorded".
+
+pred:listed_in rdf:type rdf:Property ; 
+    rdfs:domain netflix_titles:Movie;
+    rdfs:range rdf:Listed_in;
+    rdfs:comment "Category of the movie".
+
+pred:movie_release_year rdf:type rdf:Property ; 
+    rdfs:domain netflix_titles:Movie;
+    rdfs:range rdf:Literal ;
+    rdfs:comment "References a movie".
+
+pred:workers rdf:type owl:ObjectProperty;
+    owl:inverseOf pred:worked_in;
+    rdfs:comment "Person that worked on a movie".
+
+pred:similar_to rdf:type owl:SymmetricProperty;
+    rdfs:domain netflix_titles:Movie;
+    rdfs:range netflix_titles:Movie;
+    rdfs:comment "Person that worked on a movie".
+
+
+pred:movie_name rdf:type rdf:Property ; 
+    rdfs:domain netflix_titles:Movie;
+    rdfs:range rdf:Literal ;
+    rdfs:comment "Name of the movie".
+
+pred:released_in rdf:type rdf:Property ; 
+    rdfs:domain netflix_titles:Movie;
+    rdfs:range rdf:Literal ;
+    rdfs:comment "Year when the movie was released".
+
+
+#TV Show properties
+
+pred:starring_tvshow rdf:type rdf:Property ; 
+    rdfs:domain netflix_titles:Movie;
+    rdfs:range netflix_titles:Actor ;
+    rdfs:comment "Actors that participated in the TVShow".
+
+pred:directed_by_tvshow rdf:type rdf:Property ; 
+    rdfs:domain netflix_titles:TVShow;
+    rdfs:range netflix_titles:Director;
+    rdfs:comment "Directors that directed the TVShow".
+
+pred:recorded_tvshow rdf:type rdf:Property ; 
+    rdfs:domain netflix_titles:TVShow;
+    rdfs:range netflix_titles:Country;
+    rdfs:comment "Country where the TVShow was recorded".
+
+
+pred:listed_in_tvshow rdf:type rdf:Property ; 
+    rdfs:domain netflix_titles:TVShow;
+    rdfs:range rdf:Listed_in;
+    rdfs:comment "Category of the TVShow".
+
+
+pred:release_year_tvshow rdf:type rdf:Property ; 
+    rdfs:domain netflix_titles:TVShow;
+    rdfs:range rdf:Literal ;
+    rdfs:comment "References a TVShow".
+
+# create inverse property of worked_in_tv_show
+pred:workers_tv_show rdf:type owl:ObjectProperty;
+    owl:inverseOf pred:worked_in_tv_show;
+    rdfs:comment "Person that worked on a tv show".
+
+# Create symetric property
+pred:similar_to_tvshow rdf:type owl:SymmetricProperty;
+    rdfs:domain netflix_titles:TVShow;
+    rdfs:range netflix_titles:TVShow;
+    rdfs:comment "Person that worked on a TVShow".
+
+
+pred:movie_name rdf:type rdf:Property ; 
+    rdfs:domain netflix_titles:TVShow;
+    rdfs:range rdf:Literal ;
+    rdfs:comment "Name of the TVShow".
+
+pred:released_in rdf:type rdf:Property ; 
+    rdfs:domain netflix_titles:TVShow;
+    rdfs:range rdf:Literal ;
+    rdfs:comment "Year when the tv show was released".
+    
+
+
+#People properties
+
+# This will infer the subclass Celebrity
+pred:celebrity_rate rdf:type rdf:Property ; 
+    rdfs:domain netflix_titles:Celebrity;
+    rdfs:range rdf:Literal ;
+    rdfs:comment "Rate of a celebrity. The higher it is, the better.".
+
+# Create a symetric property on is_friend_of
+pred:is_friend_of rdf:type owl:SymmetricProperty ; 
+    rdfs:domain netflix_titles:Person;
+    rdfs:range netflix_titles:Person;
+    rdfs:comment "Friendship relation between 2 people".
+
+pred:person_name rdf:type rdf:Property ; 
+    rdfs:domain netflix_titles:Person;
+    rdfs:range rdf:Literal ;
+    rdfs:comment "Name of the person".
+    
+
+#Actor properties
+
+pred:starred_in rdf:type owl:ObjectProperty;
+    rdfs:subPropertyOf pred:worked_in;
+    owl:inverseOf pred:starring;
+    rdfs:comment "Inverse of the predicate starring".
+
+pred:starred_in_tv_show rdf:type owl:ObjectProperty;
+    rdfs:subPropertyOf pred:worked_in_tv_show;
+    owl:inverseOf pred:starring_tvshow;
+    rdfs:comment "Inverse of the predicate starring".
+
+
+#Director properties
+
+pred:directed rdf:type owl:ObjectProperty;
+    rdfs:subPropertyOf pred:worked_in;
+    owl:inverseOf pred:directed_by;
+    rdfs:comment "Inverse of the predicate directed_by".
+
+pred:directed_tv_show rdf:type owl:ObjectProperty;
+    rdfs:subPropertyOf pred:worked_in_tv_show;
+    owl:inverseOf pred:directed_by_tv_show;
+    rdfs:comment "Inverse of the predicate directed_by".
+
+#Category properties
+
+pred:Listed_in_name rdf:type rdf:Property ; 
+    rdfs:domain netflix_titles:Listed_in;
+    rdfs:range rdf:Literal ;
+    rdfs:comment "Name of a movie category" .
+
+
+#Country properties 
+
+pred:coutry_name  rdf:type rdf:Property ; 
+    rdfs:domain netflix_titles:Country;
+    rdfs:range rdf:Literal ;
+    rdfs:comment "Name of a country".

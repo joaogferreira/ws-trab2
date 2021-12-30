@@ -1,0 +1,56 @@
+PREFIX net: <http://netflix-titles.com/pred/>
+prefix xsd:<http://www.w3.org/2001/XMLSchema#> 
+
+Construct {?p1 net:worked_with ?p2}
+WHERE {
+        ?p1 net:acted_in ?mov .
+        ?p2 net:acted_in ?mov .
+        FILTER (?p1 != ?p2)
+    }
+    
+PREFIX net: <http://netflix-titles.com/pred/>
+
+select ?p1n ?p2n
+where{
+    ?p1 net:worked_with ?p2 .
+    ?p1 net:name ?p1n .
+    ?p2 net:name ?p2n .
+    filter (regex (?p1n, 'João', 'i'))
+}limit 15
+
+
+PREFIX net: <http://netflix-titles.com/pred/>
+prefix xsd:<http://www.w3.org/2001/XMLSchema#> 
+
+Construct {?p1 net:worked_in_country ?p2}
+WHERE { 
+        ?p1 net:country ?mov .
+        ?p2 net:country ?mov .
+        FILTER (?p1 != ?p2 && ?p2 !=?p1)
+    }
+    
+PREFIX net: <http://netflix-titles.com/pred/>
+PREFIX pred: <http://netflix-titles.com/pred/>
+prefix xsd:<http://www.w3.org/2001/XMLSchema#> 
+
+select ?s1n ?s2n ?country
+where{
+    ?s1 net:worked_in_country ?s2 .
+    ?s1 net:country ?country .
+    ?s1 net:title ?s1n .
+    ?s2 net:title ?s2n .
+    filter (regex (?country, 'United States', 'i'))
+}limit 15
+
+
+PREFIX net: <http://netflix-titles.com/pred/>
+prefix xsd:<http://www.w3.org/2001/XMLSchema#> 
+
+Construct {?p1 net:same_release_year ?p2}
+WHERE {
+        ?p1 net:release_year ?mov .
+        ?p2 net:release_year ?mov .
+        FILTER (?p1 != ?p2)
+    }
+    
+  

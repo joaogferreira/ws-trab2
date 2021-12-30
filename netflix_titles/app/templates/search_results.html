@@ -1,0 +1,72 @@
+{% extends base %}
+
+
+{% block content %}
+    <h2 style="font-family: Courier; margin-left: 500px;margin-top: 100px;"> Search page</h2>
+
+    <form action="." method="post" style="margin-left: 500px">
+        {%  csrf_token %}
+        <p>Search: <input type="text" name="keyword"/></p>
+    </form>
+
+    <p style="font-family: Courier; margin-left: 500px"> Search for: {{  keyword }}</p>
+    
+    <p style="font-family: Courier; margin-left: 500px"> Found {{  nResults}} results.</p>
+
+    <table class="styled-table" style="margin-left: 350px">
+        <thead>
+            <tr>
+                <th>Type</th>
+                <th>Title</th>
+                <th>Directed by</th>
+                <th>Cast</th>
+                <th>Country</th>
+                <th>Date Added</th>
+                <th>Release Year</th>
+                <th>Duration</th>
+                <th>Category</th>
+                <th>Based on book</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for result in results %}
+                <tr vocab="http://schema.org/" typeof="'{{ result.type |cut:" "}}'" >
+                    <td onclick="window.location={% url 'edit' %} + '{{ result.title }}' ">
+                        {{ result.type }}
+                    </td>
+                    <td onclick="window.location={% url 'edit' %} + '{{ result.title }}' " property="title">
+                        {{ result.title }}
+                    </td>
+                    <td onclick="window.location={% url 'edit' %} + '{{ result.title }}' " property="directed">
+                        {{ result.directed_by }}
+                    </td>
+                    <td onclick="window.location={% url 'edit' %} + '{{ result.title }}' " property="cast">
+                        {{ result.cast }}
+                    </td>
+                    <td onclick="window.location={% url 'edit' %} + '{{ result.title }}' " property="country">
+                        {{ result.country }}
+                    </td>
+                    <td onclick="window.location={% url 'edit' %} + '{{ result.title }}' " property="date">
+                        {{ result.date_added }}
+                    </td>
+                    <td onclick="window.location={% url 'edit' %} + '{{ result.title }}' " property="year">
+                        {{ result.release_year }}
+                    </td>
+                    <td onclick="window.location={% url 'edit' %} + '{{ result.title }}' " property="duration">
+                        {{ result.duration }}
+                    </td>
+                    <td onclick="window.location={% url 'edit' %} + '{{ result.title }}' " property="category">
+                        {{ result.listed_in }}
+                    </td>
+                    <td onclick="window.location={% url 'edit' %} + '{{ result.title }}' " property="category">
+                        {{ book }}
+                    </td>
+
+                </tr>
+            {% endfor %}
+
+        </tbody>
+    </table>
+{% endblock %}
+
+

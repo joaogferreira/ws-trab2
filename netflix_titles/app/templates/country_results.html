@@ -1,0 +1,43 @@
+{% extends base %}
+
+
+{% block content %}
+    <h2 style="font-family: Courier; margin-left: 500px;margin-top: 100px;"> Search page</h2>
+
+    <form action="." method="post" style="margin-left: 500px">
+        {%  csrf_token %}
+        <p>Search: <input type="text" name="keyword"/></p>
+    </form>
+
+    <p style="font-family: Courier; margin-left: 500px"> Search for: {{  keyword }}</p>
+
+    <p style="font-family: Courier; margin-left: 500px"> Found {{  nResults}} results.</p>
+
+    <table class="styled-table" style="margin-left: 350px">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Title</th>
+                <th>Country</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for result in results %}
+                <tr>
+                    <td>
+                        {{ result.title1 }}
+                    </td>
+                    <td>
+                        {{ result.title2 }}
+                    </td>
+                    <td>
+                        {{ result.country }}
+                    </td>
+                </tr>
+            {% endfor %}
+
+        </tbody>
+    </table>
+{% endblock %}
+
+

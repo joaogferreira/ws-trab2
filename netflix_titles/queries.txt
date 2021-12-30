@@ -1,0 +1,217 @@
+#Número de "movies" presentes no csv
+
+PREFIX net:<http://netflix-titles.com/pred/>
+PREFIX xsd:<http://www.w3.org/2001/XMLSchema#>
+           
+Select (COUNT(?movie) as ?n_movies)
+	where{
+		?movies net:type ?movie .
+    		Filter(?movie = 'Movie')
+	}	
+	
+
+#Número de "TV SHOWS" presentes no csv
+PREFIX net:<http://netflix-titles.com/pred/>
+PREFIX xsd:<http://www.w3.org/2001/XMLSchema#>
+           
+Select (COUNT(?tv_show) as ?n_tvShow)
+	where{
+		?tv_shows net:type ?tv_show .
+    		Filter(?tv_show = 'TV Show')
+	}	
+	
+#Informação presentes no csv
+PREFIX net:<http://netflix-titles.com/pred/>
+PREFIX xsd:<http://www.w3.org/2001/XMLSchema#>
+           
+Select ?film ?type ?title ?directed_by ?cast ?country ?date_added ?release_year ?duration ?listed_in
+	where{
+		?film net:type ?type .
+		?film net:title ?title .
+        ?film net:directed_by ?directed_by .
+        ?film net:cast ?cast .
+        ?film net:country ?country .
+        ?film net:date_added ?date_added .
+        ?film net:release_year ?release_year .
+        ?film net:duration ?duration .
+        ?film net:listed_in ?listed_in .
+	}
+	
+#Informação dos Movies presentes no csv
+PREFIX net:<http://netflix-titles.com/pred/>
+           
+Select ?film ?type ?title ?directed_by ?cast ?country ?date_added ?release_year ?duration ?listed_in
+	where{
+		?film net:type "Movie" .
+		?film net:title ?title .
+        ?film net:directed_by ?directed_by .
+        ?film net:cast ?cast .
+        ?film net:country ?country .
+        ?film net:date_added ?date_added .
+        ?film net:release_year ?release_year .
+        ?film net:duration ?duration .
+        ?film net:listed_in ?listed_in .
+	}
+	Limit 10
+	
+#Informação dos TV SHOWS presentes no csv
+PREFIX net:<http://netflix-titles.com/pred/>
+           
+Select ?film ?type ?title ?directed_by ?cast ?country ?date_added ?release_year ?duration ?listed_in
+	where{
+		?film net:type "TV Show" .
+		?film net:title ?title .
+        ?film net:directed_by ?directed_by .
+        ?film net:cast ?cast .
+        ?film net:country ?country .
+        ?film net:date_added ?date_added .
+        ?film net:release_year ?release_year .
+        ?film net:duration ?duration .
+        ?film net:listed_in ?listed_in .
+	}
+	Limit 10
+
+#Realizadores
+PREFIX net:<http://netflix-titles.com/pred/>
+
+Select distinct ?director
+	where{
+		?film net:directed_by ?director .
+	}
+
+#Titulo Filme/TVShows
+
+PREFIX net:<http://netflix-titles.com/pred/>
+
+Select distinct ?title
+	where{
+		?film net:title ?title .
+	}
+
+#Categorias
+
+PREFIX net:<http://netflix-titles.com/pred/>
+
+Select distinct ?listed_in
+	where{
+		?film net:listed_in ?listed_in .
+	}
+
+#Atores
+
+PREFIX net:<http://netflix-titles.com/pred/>
+
+Select distinct ?cast
+	where{
+		?film net:cast ?cast .
+	}
+
+#filter
+PREFIX net:<http://netflix-titles.com/pred/>
+
+Select ?film ?type ?title ?directed_by ?cast ?country ?date_added ?release_year ?duration ?listed_in
+	where{
+		?film net:type ?type .
+		?film net:title ?title .
+        ?film net:directed_by ?directed_by .
+        ?film net:cast ?cast .
+        ?film net:country ?country .
+        ?film net:date_added ?date_added .
+        ?film net:release_year ?release_year .
+        ?film net:duration ?duration .
+        ?film net:listed_in ?listed_in .
+    filter (regex (?title, 'la casa', 'i') || regex(?directed_by, 'la casa', 'i') || regex (?cast, 'la casa', 'i') || regex(?listed_in, 'la casa', 'i'))
+	}
+
+#add film
+
+prefix n:<http://netflix-titles.com/>
+PREFIX net:<http://netflix-titles.com/pred/>
+PREFIX xsd:<http://www.w3.org/2001/XMLSchema#>
+
+Insert data{
+    n: net:type "Movie";
+       net:title "FM";
+       net:directed_by "FM";
+	   net:cast "FM";
+	   net:country "FM";
+       net:date_added "FM";
+	   net:release_year "FM";
+	   net:duration "FM";
+	   net:listed_in "FM".
+}
+
+PREFIX net:<http://netflix-titles.com/pred/>
+PREFIX xsd:<http://www.w3.org/2001/XMLSchema#>
+Insert data{
+       net: net:  "Movie"^^xsd:string ;
+       net:title "Web Semantica"^^xsd:string;
+       net:directed_by "FM"^^xsd:string;
+	   net:cast "FM"^^xsd:string;
+	   net:country "FM"^^xsd:string;
+       net:date_added "FM"^^xsd:string;
+	   net:release_year "FM"^^xsd:string;
+	   net:duration "FM"^^xsd:string;
+	   net:listed_in "FM"^^xsd:string .
+}
+
+
+#delete data
+prefix n:<http://netflix-titles.com/>
+PREFIX net:<http://netflix-titles.com/pred/>
+PREFIX xsd:<http://www.w3.org/2001/XMLSchema#>
+
+delete data {
+    n: net:title "FM";
+       net:directed_by "FM";
+	   net:cast "FM" .
+}
+
+#Editar campos
+PREFIX net: <http://netflix-titles.com/pred/>
+PREFIX n: <http://netflix-titles.com/>
+
+DELETE {
+   n:S99999999 net:title "Web Semantica" .
+ }
+INSERT {
+   n:S99999999 net:title "Web Semantica1" .
+}
+WHERE {
+   n:S99999999 net:title "Web Semantica" .
+}
+
+#Pesquisa filme por ano
+PREFIX net:<http://netflix-titles.com/pred/>
+
+Select ?film ?type ?title ?directed_by ?cast ?country ?date_added ?release_year ?duration ?listed_in
+	where{
+		?film net:type ?type .
+		?film net:title ?title .
+		?film net:directed_by ?directed_by .
+		?film net:cast ?cast .
+		?film net:country ?country .
+		?film net:date_added ?date_added .
+		?film net:release_year "1944" .
+		?film net:duration ?duration .
+		?film net:listed_in ?listed_in .
+	}
+
+
+#Pesquisa filmes entre dois anos
+
+PREFIX net:<http://netflix-titles.com/pred/>
+
+Select ?film ?type ?title ?directed_by ?cast ?country ?date_added ?release_year ?duration ?listed_in
+	where{
+		?film net:type ?type .
+		?film net:title ?title .
+        ?film net:directed_by ?directed_by .
+        ?film net:cast ?cast .
+        ?film net:country ?country .
+        ?film net:date_added ?date_added .
+        ?film net:release_year ?release_year .
+        ?film net:duration ?duration .
+        ?film net:listed_in ?listed_in .
+        filter(?release_year >= "2019" && ?release_year <="2021" )
+	}
